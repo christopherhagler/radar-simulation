@@ -1,9 +1,12 @@
 function sigMatOut = propSignal(txSig, SNR_dB, radarParams, numPRI)
     c = 3e8;
+    numChan = radarParams.numChan;
 
-    scaleFactor = 10^(SNR_dB / 20); 
-    sigMatScaled = txSig * scaleFactor;
+    SNR_linear = 10^(SNR_dB / 20); 
+    sigMatScaled = txSig * SNR_linear;
 
+    % Get the delay time and samples it takes for the signal to travel from
+    % transmitter->target and then from target->receiver
     delay_sec = (radarParams.Rt + radarParams.Rr) / c;
     delay_samples = round(delay_sec * radarParams.fs);
 
@@ -17,13 +20,17 @@ function sigMatOut = propSignal(txSig, SNR_dB, radarParams, numPRI)
         % Prepend zeros, remove excess from end
         sigMatScaled = [zeroPad; sigMatScaled(1:end-delay_samples)];
     end
-
-    sigMatIdeal = repmat(sigMatScaled, [numPRI 1]);
-
-    % repliate the signal and generate noise per channel
-    totalSamples = size(sigMatIdeal, 1);
-    noiseMat = (randn(totalSamples, radarParams.numChan) + ...
-             1j*randn(totalSamples, radarParams.numChan)) / sqrt(2);
     
-    sigMatOut = sigMatIdeal + noiseMat;
+    signalSamples = size(sigMatScaled, 1);
+    sigMatOut = zeros([signalSamples, numPRI, numChan]);
+
+    sigMatIdeal = repmat(sigMatScaled, [1 numPRI]);
+    % repliate the signal and generate noise per channel
+    for ch=1:numChan
+        totalSamples = size(sigMatIdeal, 1);
+        channelNoise = (randn(totalSamples, numPRI) + ...
+             1j*randn(totalSamples, numPRI)) / sqrt(2);
+
+        sigMatOut(:, :, ch) = sigMatIdeal + channelNoise;
+    end
 end

@@ -42,10 +42,12 @@ title('Real Part of UHF Chirp Pulse (100 \mus)');
 xlim([0 120]); grid on;
 
 % Plot the Real part of the propogated signal
-figure(2);
-subplot(2,1,1);
-t_axis = (0:length(rxSig)-1)/radarParams.fs * 1e6;
-plot(t_axis, real(rxSig));
-xlabel('Time (\mus)'); ylabel('Amplitude');
-title('Real Part of propogated signal');
-grid on;
+for ch=1:radarParams.numChan
+    figure;
+    subplot(2,1,1);
+    t_axis = (0:length(rxSig)-1)/radarParams.fs * 1e6;
+    plot(t_axis, real(rxSig(:,ch)));
+    xlabel('Time (\mus)'); ylabel('Amplitude');
+    title('Real Part of propogated signal');
+    grid on;
+end

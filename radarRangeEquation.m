@@ -1,4 +1,4 @@
-function [SNR_dB, noisePower_dB] = radarRangeEquation(radarParams)
+function [SNR_dB, noisePower_dB] = radarRangeEquation(radarParams, waveformParams)
     % Simple form of the radar range equaiton to get the recieved signal
     % power for a given bistatic setup.
 
@@ -12,7 +12,7 @@ function [SNR_dB, noisePower_dB] = radarRangeEquation(radarParams)
     Rr_dB = 20*log10(radarParams.Rr);
     RCS_dBsm = 10*log10(radarParams.RCS);
     loss_dB = 10*log10(radarParams.loss);
-    bandwidth = 1/radarParams.tau;
+    bandwidth = 1/waveformParams.tau;
     
     noisePower_dB = 10*log10(k * radarParams.T * bandwidth) + radarParams.NF_dB;
     SNR_dB = Pt_dB + Gt_dB + Gr_dB + lambda_dB + RCS_dBsm - 30*log10(4*pi) - Rt_dB - Rr_dB - loss_dB - noisePower_dB;

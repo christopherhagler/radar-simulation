@@ -2,13 +2,12 @@ clc;
 clear variables;
 
 radarParams.fc = 450e6;
-radarParams.Pt = 200e3;
+radarParams.Pt = 10e3;
 radarParams.Gt = 630;
 radarParams.Gr = 630;
-radarParams.Rt = 150000;
-radarParams.Rr = 150000;
+radarParams.Rt = 210000;
+radarParams.Rr = 210000;
 radarParams.RCS = 10;
-radarParams.tau = 40e-6;
 radarParams.T = 290;
 radarParams.loss = 2.0;
 radarParams.NF_dB = 6.0;
@@ -22,7 +21,7 @@ waveformParams.type = 'lfm';     % Linear Frequency Modulation
 waveformParams.numPRI = 4;       % number of PRIs
 
 % 1). Calculate the recieved signal power for a given target range
-[SNR_dB, ~] = radarRangeEquation(radarParams);
+[SNR_dB, ~] = radarRangeEquation(radarParams, waveformParams);
 
 % 2). Generate an LFM chirp.
 txSig = genWaveform(radarParams.fs, waveformParams);

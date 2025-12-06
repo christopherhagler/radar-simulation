@@ -1,7 +1,6 @@
-function sigMat = genWaveform(waveformParams)
+function sigMat = genWaveform(fs, waveformParams)
     tau = waveformParams.tau;
     PRI = waveformParams.PRI;
-    fs = waveformParams.fs;
     
     t = (0:1/fs:PRI).';
     sigMat = zeros(length(t), 1);

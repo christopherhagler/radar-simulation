@@ -18,15 +18,12 @@ function sigMatOut = propSignal(txSig, SNR_dB, radarParams, numPRI)
         sigMatScaled = [zeroPad; sigMatScaled(1:end-delay_samples)];
     end
 
-    sigMatScaled = repmat(sigMatScaled, [numPRI 1]);
+    sigMatIdeal = repmat(sigMatScaled, [numPRI 1]);
 
     % repliate the signal and generate noise per channel
-    sigMatOut = zeros(size(sigMatScaled, 1), radarParams.numChan);
-    for ch=1:radarParams.numChan
-        % apply guassian white noise
-        noiseI = randn(size(sigMatScaled));
-        noiseQ = 1j * randn(size(sigMatScaled));
-        totalNoise = (noiseI + noiseQ)/sqrt(2);
-        sigMatOut(:,ch) = sigMatScaled .* totalNoise;
-    end
+    totalSamples = size(sigMatIdeal, 1);
+    noiseMat = (randn(totalSamples, radarParams.numChan) + ...
+             1j*randn(totalSamples, radarParams.numChan)) / sqrt(2);
+    
+    sigMatOut = sigMatIdeal + noiseMat;
 end

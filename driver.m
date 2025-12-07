@@ -13,6 +13,7 @@ radarParams.loss = 2.0;
 radarParams.NF_dB = 6.0;
 radarParams.numChan = 64;
 radarParams.fs = 6e6;
+radarParams.elemenPos_ENU = genPlanarArray(radarParams.numChan, freq2wavelen(radarParams.fc)/2);
 
 waveformParams.tau = 100e-6;     % 100 microseconds
 waveformParams.PRI = 1.5e-3;     % 1.5 milliseconds

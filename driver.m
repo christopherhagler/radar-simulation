@@ -16,9 +16,9 @@ radarParams.RCS = 10;
 radarParams.T = 290;
 radarParams.loss = 2.0;
 radarParams.NF_dB = 6.0;
-radarParams.numChan = 64;
+radarParams.numChan = 144;
 radarParams.fs = 6e6;
-radarParams.elemenPos_ENU = genPlanarArray(radarParams.numChan, freq2wavelen(radarParams.fc)/2);
+radarParams.elemenPos_ENU = genPlanarArray(radarParams.numChan, freq2wavelen(radarParams.fc)/2, deg2rad(45));
 
 waveformParams.tau = 100e-6;
 waveformParams.PRI = 1.5e-3;
@@ -34,6 +34,9 @@ Y = radarParams.elemenPos_ENU(:,2);
 Z = radarParams.elemenPos_ENU(:,3);
 scatter3(X,Y,Z, 'filled');
 title(sprintf('8x8 Planar Array, Spacing: %2.3fm', elementSpacing));
+xlim([-1.5 1.5]);
+ylim([-1.5 1.5]);
+zlim([-1.5 1.5]);
 
 % 1). Calculate the recieved signal power for a given target
 [SNR_dB, ~] = RREForSNR(radarParams, waveformParams);

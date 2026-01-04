@@ -1,4 +1,4 @@
-function pos_ENU = genPlanarArray(numChan, spacing, rotZ)
+function pos_ENU = genPlanarArray(numChan, spacing, rotX, rotY, rotZ)
     sideLen = sqrt(numChan);
 
     if mod(sideLen, 1) ~= 0
@@ -9,7 +9,5 @@ function pos_ENU = genPlanarArray(numChan, spacing, rotZ)
     [Grid_Y, Grid_Z] = meshgrid(axis_coords, axis_coords);
     Grid_X = zeros(size(Grid_Y));
     pos_ENU = [Grid_X(:), Grid_Y(:), Grid_Z(:)];
-
-    rotationMatrix = [cos(rotZ) -sin(rotZ) 0; sin(rotZ) cos(rotZ) 0; 0 0 1];
-    pos_ENU = (rotationMatrix * pos_ENU.').';
+    pos_ENU = rotationXYZExtrinsic(pos_ENU', rotX, rotY, rotZ)';
 end

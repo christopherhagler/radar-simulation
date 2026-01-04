@@ -18,7 +18,7 @@ radarParams.loss = 2.0;
 radarParams.NF_dB = 6.0;
 radarParams.numChan = 144;
 radarParams.fs = 6e6;
-radarParams.elemenPos_ENU = genPlanarArray(radarParams.numChan, freq2wavelen(radarParams.fc)/2, deg2rad(45));
+radarParams.elemenPos_ENU = genPlanarArray(radarParams.numChan, freq2wavelen(radarParams.fc)/2, 0, deg2rad(15), 0);
 
 waveformParams.tau = 100e-6;
 waveformParams.PRI = 1.5e-3;
@@ -33,7 +33,7 @@ X = radarParams.elemenPos_ENU(:,1);
 Y = radarParams.elemenPos_ENU(:,2);
 Z = radarParams.elemenPos_ENU(:,3);
 scatter3(X,Y,Z, 'filled');
-title(sprintf('8x8 Planar Array, Spacing: %2.3fm', elementSpacing));
+title(sprintf('Planar Array, Spacing: %2.3fm', elementSpacing));
 xlim([-1.5 1.5]);
 ylim([-1.5 1.5]);
 zlim([-1.5 1.5]);
